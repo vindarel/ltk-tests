@@ -46,3 +46,9 @@ https://gist.github.com/jasom/4c4bf02e60d85f2644f99ce7be5dce17
 Tk tutorials used:
 
 - https://tkdocs.com/tutorial/index.html
+
+## Example apps
+
+- https://github.com/lisp-mirror/fulci (by the author of nodgui)
+
+![](https://www.autistici.org/interzona/img/fulci/search-frame.png)
