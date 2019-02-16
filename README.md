@@ -36,6 +36,16 @@ https://gist.github.com/jasom/4c4bf02e60d85f2644f99ce7be5dce17
 (treeview-insert c.tree :text "some text"))
 ~~~
 
+The nodgui demo shows a lot of widgets:
+
+![](nodgui-demo-style-clam.png)
+
+Try it out with
+
+    (ql:quickload :nodgui)
+    (nodgui.demo:demo)
+
+
 # Links
 
 - https://github.com/LispCookbook/cl-cookbook/issues/31
