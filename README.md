@@ -26,6 +26,8 @@ The rest is discoverable !
 
 https://gist.github.com/jasom/4c4bf02e60d85f2644f99ce7be5dce17
 
+## Tree widget
+
 
 ![](a-tree.png)
 
@@ -35,6 +37,34 @@ https://gist.github.com/jasom/4c4bf02e60d85f2644f99ce7be5dce17
 ;; and
 (treeview-insert c.tree :text "some text"))
 ~~~
+
+With columns:
+
+![](tree-columns.png)
+
+(commented sources)
+
+A simple example:
+
+~~~lisp
+;; Always use with-nodgui or with-ltk.
+(with-nodgui ()
+    (let ((tree  (make-instance 'scrolled-treeview
+                                ;; a treeview always has a first column.
+                                :columns (list "col2"))))
+      ;; We place our widget on the grid to see it.
+      (grid tree 1 0)
+      (loop for data in '("aaa" "bbb" "ccc")
+         do (treeview-insert-item tree
+                                  ;; text of the first column.
+                                  :text data
+                                  ;; text of the other columns.
+                                  :column-values (list "val2")))))
+~~~
+
+For collapsable rows, the use of `parents` and `children`, an example: https://notabug.org/cage/nodgui/src/7e6da313d99d4b260aadab595fe4b0f843520da7/src/demo-tests.lisp
+
+## Demo
 
 The nodgui demo shows a lot of widgets:
 
