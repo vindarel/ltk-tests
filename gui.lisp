@@ -98,6 +98,11 @@
   (with-nodgui ()
     (let ((tree  (make-instance 'scrolled-treeview
                                 :columns (list "col2"))))
+      ;; the configuration to set the title of the firts column:
+      (treeview-heading tree
+                        +treeview-first-column-id+
+                        :text "col1")
+      ;; place our widget, or we won't see it.
       (grid tree 1 0)
       (loop for data in '("aaa" "bbb" "ccc")
          do (treeview-insert-item tree
