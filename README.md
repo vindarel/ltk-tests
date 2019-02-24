@@ -64,6 +64,10 @@ A simple example:
 
 For collapsable rows, the use of `parents` and `children`, an example: https://notabug.org/cage/nodgui/src/7e6da313d99d4b260aadab595fe4b0f843520da7/src/demo-tests.lisp
 
+Another example showing a treeview, with columns, inserting content
+from a searchbox, clearing the tree's content, and others (resizing,
+etc): see `example-treeview-search-display`.
+
 ## Demo
 
 The nodgui demo shows a lot of widgets:
