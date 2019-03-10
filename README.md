@@ -68,6 +68,23 @@ Another example showing a treeview, with columns, inserting content
 from a searchbox, clearing the tree's content, and others (resizing,
 etc): see `example-treeview-search-display`.
 
+## Interactively building the GUI
+
+http://www.peter-herth.de/ltk/ltkdoc/node8.html
+
+run `(start-wish)` and start building interactively !
+
+    (defparameter *button* (make-instance 'button :text "OK"))
+    (grid *button* 1 0 :sticky "e")
+
+and voilà, you didn't have to restart the main loop to see the new
+button into the interface.
+
+We didn't have to use the `with-ltk` macro too.
+
+Then `(exit-wish)`.
+
+
 ## Demo
 
 The nodgui demo shows a lot of widgets:
