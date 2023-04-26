@@ -4,6 +4,12 @@ A noob trying out Tk GUIs in Common Lisp.
 Nothing fancy, private tests, hopefully helping someone to getting
 started, until they make it to a proper tutorial.
 
+**NEW!** Peter Lane assembled an excellent resource for Ltk and Nodgui:
+
+- https://peterlane.codeberg.page/ltk-examples/
+
+# Quick Insights
+
 How to create widgets: `(make-instance 'widget-name)`, for example
 
 ~~~lisp
@@ -99,6 +105,7 @@ Try it out with
 
 # Links
 
+- https://peterlane.codeberg.page/ltk-examples/ NEW(er) and awesome.
 - https://github.com/LispCookbook/cl-cookbook/issues/31
 - https://github.com/CodyReichert/awesome-cl#gui
 - http://www.peter-herth.de/ltk/
@@ -107,6 +114,7 @@ Try it out with
 Tk tutorials used:
 
 - https://tkdocs.com/tutorial/index.html
+- https://www.effbot.org/tkinterbook/grid.htm
 
 ## Example apps
 
