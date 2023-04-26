@@ -74,6 +74,20 @@ Another example showing a treeview, with columns, inserting content
 from a searchbox, clearing the tree's content, and others (resizing,
 etc): see `example-treeview-search-display`.
 
+
+## Media player
+
+Using Peter Lane's listbox example: https://peterlane.codeberg.page/ltk-examples/#_more_widgets
+
+We display a list of strings (file names), we add a select box (select
+media player), a button (listen), and we play the file with an
+external program.
+
+Might become a general utility in my growing scripts: send a list of something, decide of the action, do it.
+
+![](mediaplayer.png)
+
+
 ## Interactively building the GUI
 
 http://www.peter-herth.de/ltk/ltkdoc/node8.html
