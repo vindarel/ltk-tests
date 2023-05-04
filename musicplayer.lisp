@@ -31,7 +31,7 @@
 ;; Find some files.
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun find-music (&key directory search)
+(defun find-music (directory search)
   "Search recursively on this directory for files whose basename contain \"search\".
 
   Return: list of FOF file objects. Use fof:basename or fof:path to get strings."
@@ -75,7 +75,7 @@
   )
 
 ;; GUI:
-(defun musicplayer (&optional (data *country-names* data-p))
+(defun musicplayer (&optional (data *data* data-p))
   (when data-p
     (setf *data* data))
   (with-ltk ()
@@ -118,14 +118,22 @@
       ;; Set event bindings for when the selection in the listbox changes,
       ;; when the user double clicks the list, and when they hit the Return key
       (bind (listbox data-listbox) "<<ListboxSelect>>"
-        #'(lambda (evt) (show-songname (listbox-get-selection data-listbox)
-                                         status-label)))
+        #'(lambda (evt)
+            (declare (ignorable evt))
+            (show-songname (listbox-get-selection data-listbox)
+                           status-label)))
       (bind (listbox data-listbox) "<Double-1>"
-        #'(lambda (evt) (listen (listbox-get-selection data-listbox)
-                                (value player-1))))
+        #'(lambda (evt)
+            (declare (ignorable evt))
+            (listen (listbox-get-selection data-listbox)
+                    (value player-1)
+                    (value player-1))))
       (bind *tk* "<Return>"
-        #'(lambda (evt) (listen (listbox-get-selection data-listbox)
-                                (value player-1))))
+        #'(lambda (evt)
+            (declare (ignorable evt))
+            (listen (listbox-get-selection data-listbox)
+                    (value player-1)
+                    (value player-1))))
 
       (setf (value player-1) "vlc")     ;; gives us upper case.
       (listbox-select data-listbox 0)
@@ -138,3 +146,5 @@
 
 #+(or)
 (musicplayer (find-music "~/music/" "mp3"))
+#+(or)
+(musicplayer (find-music "~/zique/" "mp3"))
