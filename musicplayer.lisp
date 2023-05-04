@@ -35,7 +35,8 @@
   "Search recursively on this directory for files whose basename contain \"search\".
 
   Return: list of FOF file objects. Use fof:basename or fof:path to get strings."
-  (fof:finder* :root directory :predicates (fof/p:every-path~ search)))
+  (let ((str:*ignore-case* t))
+    (fof:finder* :root directory :predicates (fof/p:every-path~ search))))
 #+(or)
 (fof:finder* :root "~/zique/" :predicates (fof/p:every-path~ "Forr" "mp3"))
 
