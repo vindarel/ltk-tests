@@ -88,30 +88,87 @@
             (format nil "Song: ~s" (normalize-item file)))))
   )
 
-;; same as nodgui.lisp
+;; Adapted from nodgui.lisp
 (defun theme-directory (theme)
   "I cloned ttkthemes to this project's root. Some themes are under png/ other under themes/
   The gif/ ones are not yet supported by nodgui
   https://notabug.org/cage/nodgui/issues/13"
-  (if (member theme (list "aquativo" ;; OK
-                          "black" ;; OK
-                          "blue" ;; OK
-                          "clearlooks" ;; OK
-                          "elegance" ;; OK but ugly
-                          "plastik" ;; OK
-                          "radiance" ;; OK
-                          )
-              :test #'equal)
-      "themes"
-      ;; other themes include:
-      ;; adapta (renders OK)
-      ;; arc (OK too!!)
-      ;; breeze (renders OK)
-      ;; equilux (renders !)
-      ;; scid (BUGS)
-      ;; ubuntu (renders !)
-      ;; yaru (renders OK)
-      "png"))
+  (cond
+
+    ;; Forest
+    ;; the light one is good.
+    ;; https://github.com/rdbende/Forest-ttk-theme
+    ((str:starts-with-p "forest-dark" theme)
+     (error "forest-dark is not supported"))
+    ((str:starts-with-p "forest-light" theme)
+     "Forest-ttk-theme/forest-light.tcl")
+
+    ;; Sun-Valley
+    ;; https://github.com/rdbende/Sun-Valley-ttk-theme
+    ;; fails to load.
+    ((str:starts-with-p "sv_" theme)
+     (log:error "Sun-Valley themes do not work, it seems")
+     (cond
+       ((equal theme "sv_light")
+        "Sun-Valley-ttk-theme/theme/light.tcl")
+       ((equal theme "sv_dark")
+        "Sun-Valley-ttk-theme/theme/dark.tcl")
+       (t
+        (error "we don't know such Sun-Valley theme. Available: sv_light, sv_dark"))))
+
+    ;; Azure - NOT OK
+    ;; https://github.com/rdbende/Azure-ttk-theme
+    ;; doesn't render properly.
+    ((str:starts-with-p "azure" theme)
+     (cond
+       ;; from ale_themes
+       ((equal theme "azure")
+        "ale_themes/azure/azure.tcl")
+       ;; azure-ttk-themes
+       ((equal theme "azure-light")
+        "Azure-ttk-theme/theme/light.tcl")
+       ((equal theme "azure-dark")
+        "Azure-ttk-theme/theme/dark.tcl")
+       (t
+        (error "we don't know such Azure them."))))
+
+    ;; Ale themes
+    ;; https://github.com/aplsimple/ale_themes/
+    ;; OK
+    ((str:s-member (list "darkbrown" "lightbrown") theme)
+     (cond
+       ((equal theme "lightbrown")
+        "ale_themes/lightbrown/lightbrown.tcl")
+       ((equal theme "darkbrown")
+        "ale_themes/darkbrown/darkbrown.tcl")
+       (t
+        (error "we don't know such Ale them."))))
+
+    ;; ttkthemes
+    ;; Good ones.
+    ((member theme (list "aquativo"   ;; OK
+                         "black"      ;; OK
+                         "blue"       ;; OK
+                         "clearlooks" ;; OK
+                         "elegance"   ;; OK but ugly
+                         "plastik"    ;; OK
+                         "radiance"   ;; OK
+                         )
+             :test #'equal)
+     (format nil "ttkthemes/ttkthemes/themes/~a/~a.tcl"  theme theme))
+    (t
+     ;; other themes include:
+     ;; adapta (renders OK)
+     ;; arc (OK too!!)
+     ;; breeze (renders OK)
+     ;; equilux (renders !)
+     ;; scid (BUGS)
+     ;; ubuntu (renders !)
+     ;; yaru (renders OK)
+     ;;
+     ;; in png/ directory.
+     (format nil "ttkthemes/ttkthemes/png/~a/~a.tcl"  theme theme))))
+
 
 ;; GUI:
 (defun musicplayer (&optional (data *data* data-p) &key (theme "yaru"))
@@ -123,8 +180,13 @@
 
     ;; (eval-tcl-file "ttkthemes/ttkthemes/png/yaru/yaru.tcl")
     ;; (use-theme "yaru")
-    (eval-tcl-file (format nil "ttkthemes/ttkthemes/~a/~a/~a.tcl" (theme-directory theme) theme theme))
-    (use-theme (format nil "~a" theme))
+
+    (log:info (theme-directory theme))
+    (eval-tcl-file (theme-directory theme))
+    (use-theme theme)
+
+    ;; (eval-tcl-file "Forest-ttk-theme/forest-light.tcl")
+    ;; (use-theme "forest-dark")
 
     (wm-title *tk* (format nil "Listbox Example: media player. Theme: ~a" theme))
 
@@ -135,8 +197,8 @@
                                                   :text "vlc"
                                                   :value "vlc" :variable "player"))
            (player-2 (make-instance 'radio-button :master content
-                                                :text "mpv"
-                                                :value "mpv" :variable "player"))
+                                                  :text "mpv"
+                                                  :value "mpv" :variable "player"))
            (status-label (make-instance 'label :master content :text "" :anchor "w"))
            (listen-btn (make-instance 'button
                                       :master content :text "Listen"
@@ -183,7 +245,7 @@
                     (value player-1)
                     (value player-1))))
 
-      (setf (value player-1) "vlc")     ;; gives us upper case.
+      (setf (value player-1) "vlc") ;; gives us upper case.
       (listbox-select data-listbox 0)
       (show-songname (listbox-get-selection data-listbox) status-label)
       ;; alternate colours in listbox

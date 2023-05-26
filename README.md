@@ -122,7 +122,7 @@ We can use Tk themes, that's huge!
 ![](media-plastik.png)
 ![](media-ubuntu.png)
 
-I cloned [ttkthemes](https://github.com/TkinterEP/ttkthemes/) ([gallery](https://ttkthemes.readthedocs.io/en/latest/themes.html#elegance) locally.
+I cloned [ttkthemes](https://github.com/TkinterEP/ttkthemes/) ([gallery](https://ttkthemes.readthedocs.io/en/latest/themes.html#elegance)) locally.
 
 We need to eval a tcl file, and set the theme:
 
@@ -141,6 +141,23 @@ List of Tcl/Tk themes: https://wiki.tcl-lang.org/page/List+of+ttk+Themes
 The gif themes of ttkthemes are not yet supported, but will be when `tklib` lands in Debian. Read [nodgui #13](https://wiki.tcl-lang.org/page/List+of+ttk+Themes).
 
 note: the "scid" and "smog" themes bugged.
+
+### More themes
+
+[Forest theme](https://github.com/rdbende/Forest-ttk-theme)
+
+![](media-forest-light.png)
+
+Screenshot from its readme:
+
+![](https://raw.githubusercontent.com/rdbende/Forest-ttk-theme/master/Forest-light%20screenshot.png)
+
+(by the same author, [Azure](https://github.com/rdbende/Azure-ttk-theme) and [Sun Valley](https://github.com/rdbende/Sun-Valley-ttk-theme) themes didn't load)
+
+[Ale themes](https://github.com/aplsimple/ale_themes)
+
+![](media-lightbrown.png)
+
 
 
 ## Interactively building the GUI
