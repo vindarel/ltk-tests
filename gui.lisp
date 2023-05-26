@@ -8,9 +8,12 @@
 (in-package :ltk-first-example)
 
 (defun calculate (feet-widget meter-widget)
-  (setf (text meter-widget) (format nil "~,2F" (*
-                                                (read-from-string (text feet-widget))
-                                                0.3048d0))))
+  (let ((feet-input (text feet-widget)))
+    (when (and feet-input (str:non-blank-string-p feet-input))
+      (log:info feet-input)
+      (setf (text meter-widget) (format nil "~,2F" (*
+                                                    (read-from-string feet-input)
+                                                    0.3048d0))))))
 
 (defun gui ()
   (let ((ltk:*debug-tk* t))
