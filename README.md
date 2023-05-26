@@ -10,6 +10,12 @@ started, until they make it to a proper tutorial.
 
 **NEW!** nodgui supports custom Tk themes!! See gallery below.
 
+To test:
+
+    git clone https://github.com/TkinterEP/ttkthemes/
+
+at this project's root (or use the "yaru" theme, commited).
+
 
 # Quick Insights
 
