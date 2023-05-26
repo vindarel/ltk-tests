@@ -1,5 +1,13 @@
 ;; #!/usr/bin/env ciel
 
+;; Same as musicplayer.lisp, for Ltk, here with nodgui.
+;; Goal: use other Tk themes \o/
+;;
+;; Differences:
+;; - in show-songname and listen, the index is given inside a nested list: ((0))
+;; instead of (0) in Ltk. We use CAAR instead of FIRST.
+;; - use with-nodgui instead of WITH-LTK, and that's it.
+
 ;; from https://peterlane.codeberg.page/ltk-examples/#_basic_widgets
 ;;
 ;; Simple dumb player:
@@ -15,7 +23,9 @@
 
 (uiop:define-package :ltk-tests
     (:shadow :listen)
-    (:use :cl :ltk))
+  (:use :cl
+   ;; :ltk))
+   :nodgui))
 
 (in-package :ltk-tests)
 
@@ -38,6 +48,7 @@
 
   Return: list of FOF file objects. Use fof:basename or fof:path to get strings."
   (let ((str:*ignore-case* t))
+    ;; XXX: still a pending MR.
     (fof:finder* :root directory :predicates (fof/p:every-path~ search))))
     ;; (fof:finder* :root directory :predicates (fof/p:path~ search))))
 #+(or)
@@ -52,7 +63,7 @@
 ;; External command: read this file with a media player.
 (defun listen (index player notification-label)
   (when (= 1 (length index))
-    (let* ((idx (first index))
+    (let* ((idx (caar index)) ;; Ltk: first
            (player (get-player-name player))
            (item (nth idx *data*)))
 
@@ -69,21 +80,54 @@
 (defun show-songname (index status-label)
   "Updates status label (window bottom)"
   ;; nice status at the window bottom.
-  ;;
   (when (= 1 (length index))
-    (let* ((idx (first index))
+    (let* ((idx (caar index))  ;; in Ltk: "first" is enough. nodgui: caar.
            ;; (code (nth idx *country-codes*))
            (file (nth idx *data*)))
       (setf (text status-label)
             (format nil "Song: ~s" (normalize-item file)))))
   )
 
+;; same as nodgui.lisp
+(defun theme-directory (theme)
+  "I cloned ttkthemes to this project's root. Some themes are under png/ other under themes/
+  The gif/ ones are not yet supported by nodgui
+  https://notabug.org/cage/nodgui/issues/13"
+  (if (member theme (list "aquativo" ;; OK
+                          "black" ;; OK
+                          "blue" ;; OK
+                          "clearlooks" ;; OK
+                          "elegance" ;; OK but ugly
+                          "plastik" ;; OK
+                          "radiance" ;; OK
+                          )
+              :test #'equal)
+      "themes"
+      ;; other themes include:
+      ;; adapta (renders OK)
+      ;; arc (OK too!!)
+      ;; breeze (renders OK)
+      ;; equilux (renders !)
+      ;; scid (BUGS)
+      ;; ubuntu (renders !)
+      ;; yaru (renders OK)
+      "png"))
+
 ;; GUI:
-(defun musicplayer (&optional (data *data* data-p))
+(defun musicplayer (&optional (data *data* data-p) &key (theme "yaru"))
   (when data-p
     (setf *data* data))
-  (with-ltk ()
-    (wm-title *tk* "Listbox Example: media player")
+  (with-nodgui ()
+
+    ;; (ltk::use-theme "clam")
+
+    ;; (eval-tcl-file "ttkthemes/ttkthemes/png/yaru/yaru.tcl")
+    ;; (use-theme "yaru")
+    (eval-tcl-file (format nil "ttkthemes/ttkthemes/~a/~a/~a.tcl" (theme-directory theme) theme theme))
+    (use-theme (format nil "~a" theme))
+
+    (wm-title *tk* (format nil "Listbox Example: media player. Theme: ~a" theme))
+
     ;; create the outer content frame and other widgets
     (let* ((content (make-instance 'frame))
            (data-listbox (make-instance 'scrolled-listbox :master content))
@@ -150,8 +194,9 @@
 
 #+(or)
 (musicplayer (find-music "~/music/" "mp3"))
+
 #+(or)
-(musicplayer (find-music "~/zique/" "mp3"))
+(musicplayer (find-music "~/zique/" "forr"))
 
 #+ciel
 (musicplayer (find-music "~/zique/" (second ciel-user:*script-args*)))

@@ -8,6 +8,9 @@ started, until they make it to a proper tutorial.
 
 - https://peterlane.codeberg.page/ltk-examples/
 
+**NEW!** nodgui supports custom Tk themes!! See gallery below.
+
+
 # Quick Insights
 
 How to create widgets: `(make-instance 'widget-name)`, for example
@@ -29,6 +32,12 @@ The rest is discoverable !
 
 
 ![](feet-to-meters.png)
+
+With nodgui, yaru and breeze theme (more below):
+
+![](feet-yaru.png)
+
+![](feet-breeze.png)
 
 https://gist.github.com/jasom/4c4bf02e60d85f2644f99ce7be5dce17
 
@@ -86,6 +95,46 @@ external program.
 Might become a general utility in my growing scripts: send a list of something, decide of the action, do it.
 
 ![](mediaplayer.png)
+
+## Media player (nodgui, themes)
+
+See musicplayer-nodgui.lisp.
+
+We can use Tk themes, that's huge!
+
+
+![](media-equilux.png)
+![](media-adapta.png)
+![](media-yaru.png)
+![](media-arc.png)
+![](media-aquativo.png)
+![](media-black.png)
+![](media-breeze.png)
+![](media-blue.png)
+![](media-clearlooks.png)
+![](media-radiance.png)
+![](media-plastik.png)
+![](media-ubuntu.png)
+
+I cloned [ttkthemes](https://github.com/TkinterEP/ttkthemes/) ([gallery](https://ttkthemes.readthedocs.io/en/latest/themes.html#elegance) locally.
+
+We need to eval a tcl file, and set the theme:
+
+~~~lisp
+;; inside nodgui:with-nodgui main loop.
+(eval-tcl-file "ttkthemes/ttkthemes/png/yaru/yaru.tcl")
+(use-theme "yaru")
+~~~
+
+and that's it.
+
+The [awthemes](https://sourceforge.net/projects/tcl-awthemes/) are supposed to be supported (didn't try yet).
+
+List of Tcl/Tk themes: https://wiki.tcl-lang.org/page/List+of+ttk+Themes
+
+The gif themes of ttkthemes are not yet supported, but will be when `tklib` lands in Debian. Read [nodgui #13](https://wiki.tcl-lang.org/page/List+of+ttk+Themes).
+
+note: the "scid" and "smog" themes bugged.
 
 
 ## Interactively building the GUI
